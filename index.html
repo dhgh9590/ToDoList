@@ -40,7 +40,7 @@
             <div id="weather">
                 <ul>
                     <li><span class="weather"></span></li>
-                    <li><span class="temp"></span><span>°</span></li>
+                    <li><span class="temp"></span></li>
                     <li><span class="city_name"></span></li>
                 </ul>
             </div>
@@ -113,7 +113,7 @@
                     const temp = document.querySelector("#weather .temp");
                     const city = document.querySelector("#weather .city_name");
                     weather.innerText = data.weather[0].main;
-                    temp.innerText = data.main.temp;
+                    temp.innerText = data.main.temp + "°";
                     city.innerText = data.name;
                 });
         }
