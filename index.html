@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>ToDoList</title>
+
+    <link rel="stylesheet" href="css/reset.css"><!-- 리셋 css -->
+    <link rel="stylesheet" href="css/style.css"><!-- 스타일 css -->
+    <link rel="stylesheet" href="css/font-awesome.css"><!-- 폰트어썸 구버전 css -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"><!-- 폰트어썸 신버전 CDN -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <section id="section">
+        <div class="container">
+            <div class="login hidden">
+                <div class="div">
+                    <div class="title">
+                        <h1 class="main_title">Welcome!</h1>
+                        <p class="sub_title">Today will be great</p>
+                    </div>
+                    <form id="login-form">
+                        <div class="id">
+                            <input required maxlength="15" type="text" placeholder="Username" class="login_input">
+                            <span><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="submit" value="LOGIN" class="login_btn">
+                    </form>
+                </div>
+            </div>
+            <div class="clock_wrap">
+                <h2 id="day"></h2>
+                <h2 id="clock">00:00</h2>
+            </div>
+            <div class="todo hidden">
+                <div class="todo_title">
+                    <h2 id="greeting" class="hidden"></h2>
+                    <div class="todo_title_cont">
+                        <p></p>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="todo_main_cont">
+                    <div class="todo_cont">
+                        <form id="todo-form">
+                            <input type="text" required placeholder="Write a To Do and Press Enter">
+                        </form>
+                        <ul id="todo-list"></ul>
+                    </div>
+                    <div class="music">
+                        <div class="music_wrap">
+                            <div class="music_title">
+                                <em>Troye Sivan - Wild</em>
+                            </div>
+                            <div class="img_wrap">
+                                <img class="music_img" src="img/1.jpg" alt="">
+                            </div>
+                            <audio id="audioContainer"> <!-- audio play를 위함 -->
+                                <source id="audioSource" src=""> <!-- audio 파일 -->
+                            </audio>
+                            <div class="slideContainer">
+                                <input type="range" min="0" max="100" value="50"  id="audio_slider">
+                                <p>Value: <span id="audio_value"></span></p>
+                            </div>
+                            <div class="btn_wrap">
+                                <ul>
+                                    <li class="PrevBtn"><em><i class="fas fa-angle-double-left"></i></em></li>
+                                    <li class="playBtn"><em><i class="fas fa-play"></i></em></li>
+                                    <li class="stopBtn"><em><i class="fas fa-stop"></i></em></li>
+                                    <li class="NextBtn"><em><i class="fas fa-angle-double-right"></i></em></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="weather">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+    </section>
+
+
+    <script src="js/greetings.js"></script>
+    <script src="js/clock.js"></script>
+    <script src="js/quotes.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/todo.js"></script>
+    <script src="js/audio.js"></script>
+    <script>
+
+        const API_KEY = "3594934588d45b7a6aa2c68291c4eff3";
+
+        function onGeoOk(){
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+            fetch(url).then(Response => Response.json()).then(data => {
+                const weather = document.querySelector("#weather span:first-child");
+                const city = document.querySelector("#weather span:last-child");
+                city.innerText = data.name;
+                weather.innerText = data.weather[0].main;
+            });
+        }
+        function onGeoError(){
+            alert("Can't find you. No weather for you.");
+        }
+
+        navigator.geolocation.getCurrentPosition(onGeoOk,onGeoError);
+
+
+    </script>
+    
+</body>
+</html>
