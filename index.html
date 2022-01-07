@@ -37,6 +37,13 @@
                 <h2 id="day"></h2>
                 <h2 id="clock">00:00</h2>
             </div>
+            <div id="weather">
+                <ul>
+                    <li><span class="weather"></span></li>
+                    <li><span class="temp"></span><span>°</span></li>
+                    <li><span class="city_name"></span></li>
+                </ul>
+            </div>
             <div class="todo hidden">
                 <div class="todo_title">
                     <h2 id="greeting" class="hidden"></h2>
@@ -65,7 +72,7 @@
                             </audio>
                             <div class="slideContainer">
                                 <input type="range" min="0" max="100" value="50"  id="audio_slider">
-                                <p>Value: <span id="audio_value"></span></p>
+                                <p>volume : <span id="audio_value"></span></p>
                             </div>
                             <div class="btn_wrap">
                                 <ul>
@@ -79,10 +86,7 @@
                     </div>
                 </div>
             </div>
-            <div id="weather">
-                <span></span>
-                <span></span>
-            </div>
+
         </div>
 
     </section>
@@ -98,16 +102,20 @@
 
         const API_KEY = "3594934588d45b7a6aa2c68291c4eff3";
 
-        function onGeoOk(){
+        function onGeoOk(position){
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
-            fetch(url).then(Response => Response.json()).then(data => {
-                const weather = document.querySelector("#weather span:first-child");
-                const city = document.querySelector("#weather span:last-child");
-                city.innerText = data.name;
-                weather.innerText = data.weather[0].main;
-            });
+            fetch(url)
+                .then((response) => response.json())
+                .then((data) => {
+                    const weather = document.querySelector("#weather .weather");
+                    const temp = document.querySelector("#weather .temp");
+                    const city = document.querySelector("#weather .city_name");
+                    weather.innerText = data.weather[0].main;
+                    temp.innerText = data.main.temp;
+                    city.innerText = data.name;
+                });
         }
         function onGeoError(){
             alert("Can't find you. No weather for you.");
